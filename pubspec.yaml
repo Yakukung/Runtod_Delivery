@@ -1,0 +1,53 @@
+name: runtod_app
+description: "A new Flutter project."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  flutter_launcher_icons: ^0.13.1
+  get: ^4.6.6
+  video_player: ^2.9.1
+  google_maps_flutter: ^2.3.0
+  
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/zen.png"
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/
+    - assets/images/
+    - assets/video/star-rail.mp4
+    - assets/video/delivery.mp4
+    - assets/icon/zen.png
+
+  fonts:
+    - family: SukhumvitSet
+      fonts:
+        - asset: assets/SukhumvitSet/SukhumvitSet-Thin.ttf
+          weight: 100
+        - asset: assets/SukhumvitSet/SukhumvitSet-Text.ttf
+          weight: 400
+        - asset: assets/SukhumvitSet/SukhumvitSet-SemiBold.ttf
+          weight: 600
+        - asset: assets/SukhumvitSet/SukhumvitSet-Medium.ttf
+          weight: 500
+        - asset: assets/SukhumvitSet/SukhumvitSet-Light.ttf
+          weight: 300
+        - asset: assets/SukhumvitSet/SukhumvitSet-Bold.ttf
+          weight: 700
