@@ -39,7 +39,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
           ),
           child: Padding(
             padding: EdgeInsets.only(
-                top: 0, left: customPadding, right: customPadding),
+                top: 30, left: customPadding, right: customPadding),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

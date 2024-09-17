@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+import 'package:runtod_app/pages/home/home.dart';
 import 'package:runtod_app/pages/register/option_register.dart';
 import 'package:flutter/material.dart';
 
@@ -189,7 +191,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void login() {
-    // Implement login logic here
+      Get.to(() => const HomePage());
   }
 
   void _register() {
