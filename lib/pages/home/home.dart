@@ -27,6 +27,7 @@ class _HomePageState extends State<HomePage> {
                 try {
                   var position = await _determinePosition();
                   setState(() {
+                      print('Latitude: ${position.latitude}, Longitude: ${position.longitude}');
                     latLng = LatLng(position.latitude, position.longitude);
                     errorMessage = '';
                   });
