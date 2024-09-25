@@ -1,6 +1,6 @@
 name: runtod_app
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.0+1
 
@@ -10,17 +10,21 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  font_awesome_flutter: ^10.0.0
   cupertino_icons: ^1.0.8
   flutter_launcher_icons: ^0.13.1
   get: ^4.6.6
   video_player: ^2.9.1
   google_maps_flutter: ^2.3.0
-  location: ^7.0.0 
+  location: ^7.0.0
   geolocator: ^12.0.0
   geolocator_android: 4.5.5
   flutter_map: ^7.0.2
   latlong2: ^0.9.1
-  
+  get_storage: ^2.1.1
+  http: ^1.2.2
+  geocoding: ^3.0.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -37,7 +41,6 @@ flutter:
   assets:
     - assets/
     - assets/images/
-    - assets/video/star-rail.mp4
     - assets/video/delivery.mp4
     - assets/icon/zen.png
 
