@@ -9,7 +9,7 @@ import 'package:runtod_app/config/internal_config.dart';
 import 'package:runtod_app/pages/intro.dart';
 import 'package:runtod_app/pages/nav-user/navbar.dart';
 import 'package:runtod_app/pages/nav-user/navbottom.dart';
-import 'package:runtod_app/sidebar/customerSidebar.dart';
+import 'package:runtod_app/sidebar/userSidebar.dart';
 
 class SenduserPage extends StatefulWidget {
   const SenduserPage({super.key});
@@ -62,9 +62,6 @@ class _SenduserPageState extends State<SenduserPage> {
   Future<UsersLoginPostResponse> fetchUserData() async {
     GetStorage gs = GetStorage();
     int? uid = gs.read('uid');
-    if (uid == null) {
-      throw Exception('User ID not found in storage');
-    }
 
     final response = await http.get(
       Uri.parse('$API_ENDPOINT/user/$uid'),

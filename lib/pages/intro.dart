@@ -88,14 +88,14 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
             top: 0,
             right: 0,
             left: 0,
-            height: MediaQuery.sizeOf(context).height * .8,
+            height: MediaQuery.sizeOf(context).height * 1,
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Colors.black.withOpacity(.8),
+                    Colors.black.withOpacity(1),
                     Colors.transparent,
                   ],
                 ),
@@ -171,6 +171,7 @@ class _IntroPageState extends State<IntroPage> with TickerProviderStateMixin {
                       },
                       icon: const Icon(
                         Icons.arrow_forward_ios,
+                        color: Color(0xFFFFFFFF),
                         size: 20,
                       ),
                       label: const Text('ไปกันเล๊ย!',

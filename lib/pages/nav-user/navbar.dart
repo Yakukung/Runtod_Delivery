@@ -95,6 +95,7 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                             fontWeight: FontWeight.w600,
                             fontSize: 22,
                             color: Colors.white,
+                            height: 1.0,
                           ),
                         ),
                         Text(
@@ -104,6 +105,7 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
                             fontWeight: FontWeight.w600,
                             fontSize: 22,
                             color: Colors.white,
+                            height: 1.0,
                           ),
                         ),
                       ],
@@ -125,7 +127,7 @@ class Navbar extends StatelessWidget implements PreferredSizeWidget {
         height: 100,
         child: ClipOval(
           child: Image.asset(
-            'assets/logo/mc.png',
+            'assets/icon/zen.png',
             fit: BoxFit.cover,
           ),
         ),

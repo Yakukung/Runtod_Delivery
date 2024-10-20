@@ -9,7 +9,7 @@ import 'package:runtod_app/config/internal_config.dart';
 import 'package:runtod_app/pages/intro.dart';
 import 'package:runtod_app/pages/nav-user/navbar.dart';
 import 'package:runtod_app/pages/nav-user/navbottom.dart';
-import 'package:runtod_app/sidebar/customerSidebar.dart';
+import 'package:runtod_app/sidebar/userSidebar.dart';
 
 class StatususerPage extends StatefulWidget {
   const StatususerPage({super.key});
@@ -46,7 +46,7 @@ class _StatususerPageState extends State<StatususerPage> {
               imageUrl: snapshot.data!.imageProfile ?? '',
               fullname: snapshot.data!.fullname,
               uid: snapshot.data!.uid,
-              currentPage: 'profile',
+              currentPage: 'status',
             );
           } else {
             return const Center(child: Text('No data available'));
@@ -62,9 +62,6 @@ class _StatususerPageState extends State<StatususerPage> {
   Future<UsersLoginPostResponse> fetchUserData() async {
     GetStorage gs = GetStorage();
     int? uid = gs.read('uid');
-    if (uid == null) {
-      throw Exception('User ID not found in storage');
-    }
 
     final response = await http.get(
       Uri.parse('$API_ENDPOINT/user/$uid'),

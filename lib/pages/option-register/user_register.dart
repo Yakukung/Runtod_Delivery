@@ -1,6 +1,11 @@
+import 'dart:convert';
 import 'dart:developer';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:runtod_app/config/internal_config.dart';
+import 'package:runtod_app/model/Request/UsersRegisterPostRequest.dart';
+import 'package:runtod_app/pages/login.dart';
 
 class UserRegisterPage extends StatefulWidget {
   const UserRegisterPage({super.key});
@@ -243,7 +248,7 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                 ),
                 const SizedBox(height: 15),
                 ElevatedButton(
-                  onPressed: _RaiderRegister,
+                  onPressed: _Register,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFFF92A47),
                     shape: RoundedRectangleBorder(
@@ -274,17 +279,141 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
 
   void _togglePasswordVisibility() {
     setState(() {
-      _obscureText = !_obscureText; // Update the state here
+      _obscureText = !_obscureText;
       print('Password visibility toggled: $_obscureText');
     });
   }
 
   void _toggleCFPasswordVisibility() {
     setState(() {
-      _obscureTextCF = !_obscureTextCF; // Update the state here
+      _obscureTextCF = !_obscureTextCF;
       print('Confirm password visibility toggled: $_obscureTextCF');
     });
   }
 
-  void _RaiderRegister() {}
+  void showSnackbar(String title, String message,
+      {Color backgroundColor = Colors.blue}) {
+    Get.snackbar(
+      '',
+      '',
+      titleText: Text(
+        title,
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+          fontFamily: 'SukhumvitSet',
+        ),
+      ),
+      messageText: Text(
+        message,
+        style: TextStyle(
+          fontSize: 16,
+          color: Colors.white,
+          fontWeight: FontWeight.w600,
+          fontFamily: 'SukhumvitSet',
+        ),
+      ),
+      snackPosition: SnackPosition.TOP,
+      backgroundColor: backgroundColor,
+      margin: EdgeInsets.all(30),
+      borderRadius: 22,
+    );
+  }
+
+  Future<void> _Register() async {
+    log('username: ${usernameCtl.text}');
+    log('fullname: ${fullnameCtl.text}');
+    log('email: ${emailCtl.text}');
+    log('phone: ${phoneCtl.text}');
+    log('password: ${passwordCtl.text}');
+    log('confrimpass: ${confirmpasswordtCtl.text}');
+
+    // ตรวจสอบว่าข้อมูลว่างหรือมีช่องว่าง
+    if (usernameCtl.text.trim().isEmpty ||
+        fullnameCtl.text.trim().isEmpty ||
+        emailCtl.text.trim().isEmpty ||
+        phoneCtl.text.trim().isEmpty ||
+        passwordCtl.text.trim().isEmpty ||
+        confirmpasswordtCtl.text.trim().isEmpty) {
+      showSnackbar('สร้างบัญชีไม่สำเร็จ!', 'กรุณาป้อนข้อมูลให้ครบทุกช่อง',
+          backgroundColor: Color(0xFFF92A47));
+      return;
+    }
+
+    // ตรวจสอบว่าหมายเลขโทรศัพท์มีความยาว 10 หลัก
+    if (phoneCtl.text.trim().length != 10) {
+      showSnackbar(
+          'หมายเลขโทรศัพท์ไม่ถูกต้อง!', 'กรุณากรอกหมายเลขโทรศัพท์ 10 หลัก',
+          backgroundColor: Color(0xFFF92A47));
+      return;
+    }
+
+    // ตรวจสอบว่ารหัสผ่านตรงกัน
+    if (confirmpasswordtCtl.text.trim() != passwordCtl.text.trim()) {
+      showSnackbar('รหัสผ่านไม่ตรงกัน!', 'กรุณากรอกรหัสผ่านให้ตรงกัน',
+          backgroundColor: Color(0xFFF92A47));
+      return;
+    }
+
+    // ตรวจสอบว่าอีเมลมีเครื่องหมาย @
+    if (!emailCtl.text.trim().contains('@')) {
+      showSnackbar('อีเมลไม่ถูกต้อง!', 'กรุณากรอกอีเมลให้ถูกต้อง',
+          backgroundColor: Color(0xFFF92A47));
+      return;
+    }
+
+    var data = UsersRegisterPostRequest(
+      username: usernameCtl.text.trim(),
+      fullname: fullnameCtl.text.trim(),
+      email: emailCtl.text.trim(),
+      phone: phoneCtl.text.trim(),
+      password: passwordCtl.text.trim(),
+    );
+    log('Sending data: ${jsonEncode(data.toJson())}');
+
+    try {
+      var response = await http.post(
+        Uri.parse('$API_ENDPOINT/register/user'),
+        headers: {"Content-Type": "application/json; charset=utf-8"},
+        body: jsonEncode(data.toJson()),
+      );
+      log('Status code: ${response.statusCode}');
+      log('Response body: ${response.body}');
+
+      if (response.statusCode == 200) {
+        showSnackbar('สร้างบัญชีสำเร็จ!', 'คุณสร้างบัญชีคุณสำเร็จแล้ว',
+            backgroundColor: Colors.blue);
+        Get.to(() => LoginPage());
+      } else {
+        var responseData = jsonDecode(response.body);
+        log('Response data: $responseData');
+
+        String errorMessage = 'ไม่สามารถลงทะเบียนได้ ลองใหม่อีกครั้ง';
+
+        if (responseData is Map<String, dynamic> &&
+            responseData.containsKey('error')) {
+          String errorType = responseData['error'];
+
+          if (errorType.contains('UNIQUE constraint failed')) {
+            if (errorType.contains('users.username')) {
+              errorMessage = 'ชื่อผู้ใช้นี้มีการใช้งานอยู่แล้ว';
+            } else if (errorType.contains('users.email')) {
+              errorMessage = 'อีเมลนี้มีการใช้งานอยู่แล้ว';
+            } else if (errorType.contains('users.phone')) {
+              errorMessage = 'หมายเลขโทรศัพท์นี้มีการใช้งานอยู่แล้ว';
+            }
+          }
+        }
+
+        showSnackbar('สร้างบัญชีไม่สำเร็จ!', errorMessage,
+            backgroundColor: Color(0xFFF92A47));
+      }
+    } catch (e) {
+      log('Error: $e');
+      showSnackbar(
+          'สร้างบัญชีไม่สำเร็จ!', 'ไม่สามารถลงทะเบียนได้ ลองใหม่อีกครั้ง',
+          backgroundColor: Color(0xFFF92A47));
+    }
+  }
 }

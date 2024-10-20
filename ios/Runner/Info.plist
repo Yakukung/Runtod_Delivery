@@ -8,8 +8,6 @@
     <string>We need your location to show where you are on the map</string>
     <key>NSCameraUsageDescription</key>
     <string>We need your camera to take pictures</string>
-    <key>GoogleMapsAPIKey</key>
-    <string>YOUR_API_KEY</string>
     <key>CFBundleDevelopmentRegion</key>
     <string>$(DEVELOPMENT_LANGUAGE)</string>
     <key>CFBundleDisplayName</key>
@@ -53,5 +51,7 @@
     <true/>
     <key>UIApplicationSupportsIndirectInputEvents</key>
     <true/>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>We need your location for background tracking.</string>
 </dict>
 </plist>

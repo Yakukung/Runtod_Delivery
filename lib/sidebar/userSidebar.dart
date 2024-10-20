@@ -7,6 +7,7 @@ import 'package:runtod_app/pages/user/home/%20profileUser.dart';
 import 'package:runtod_app/pages/user/home/homeUser.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:runtod_app/pages/user/home/sendUser.dart';
+import 'package:runtod_app/pages/user/home/statusUser.dart';
 
 class CustomerSidebar extends StatelessWidget {
   final String imageUrl;
@@ -147,10 +148,9 @@ class CustomerSidebar extends StatelessWidget {
                   text: 'สถานะการส่ง',
                   page: 'status',
                   onTap: () {
-                    Get.to(() => HomeUserPage());
+                    Get.to(() => StatususerPage());
                   },
                 ),
-                const Divider(),
                 const SizedBox(height: 50),
                 _buildMenuItem(
                   context,
@@ -235,7 +235,7 @@ class CustomerSidebar extends StatelessWidget {
         height: 100,
         child: ClipOval(
           child: Image.asset(
-            'assets/logo/mc.png',
+            'assets/icon/zen.png',
             fit: BoxFit.cover,
           ),
         ),

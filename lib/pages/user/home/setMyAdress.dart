@@ -85,7 +85,7 @@ class _SetmyadressPageState extends State<SetmyadressPage> {
                   ],
                 ),
           Positioned(
-            top: 40,
+            top: 50,
             left: 10,
             child: ClipOval(
               child: BackdropFilter(
@@ -109,7 +109,7 @@ class _SetmyadressPageState extends State<SetmyadressPage> {
             ),
           ),
           Positioned(
-            top: 40,
+            top: 50,
             right: 10,
             child: ClipOval(
               child: BackdropFilter(
@@ -139,64 +139,67 @@ class _SetmyadressPageState extends State<SetmyadressPage> {
                 borderRadius:
                     const BorderRadius.vertical(top: Radius.circular(45)),
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: 80,
-                    height: 6,
-                    decoration: BoxDecoration(
-                      color: Color(0xFF4A4A4C),
-                      borderRadius: BorderRadius.circular(5),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 5, right: 5, bottom: 50),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: 80,
+                      height: 6,
+                      decoration: BoxDecoration(
+                        color: Color(0xFF4A4A4C),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  const Text(
-                    'ที่อยู่ของฉัน',
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF6C6C6C),
+                    const SizedBox(height: 20),
+                    const Text(
+                      'ที่อยู่ของฉัน',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF6C6C6C),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 8),
-                  _isUpdatingAddress
-                      ? const Center(child: CircularProgressIndicator())
-                      : Text(
-                          _address.isNotEmpty
-                              ? _address
-                              : 'กำลังค้นหาที่อยู่...',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 16,
-                            color: Colors.white,
+                    const SizedBox(height: 8),
+                    _isUpdatingAddress
+                        ? const Center(child: CircularProgressIndicator())
+                        : Text(
+                            _address.isNotEmpty
+                                ? _address
+                                : 'กำลังค้นหาที่อยู่...',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 16,
+                              color: Colors.white,
+                            ),
+                          ),
+                    const SizedBox(height: 16),
+                    SizedBox(
+                      width: 114,
+                      child: FilledButton(
+                        onPressed: _saveAddress,
+                        style: FilledButton.styleFrom(
+                          backgroundColor: const Color(0xFF1F8CE2),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18),
+                          ),
+                          minimumSize: const Size(double.infinity, 50),
+                        ),
+                        child: const Text(
+                          'บันทึกที่อยู่',
+                          style: TextStyle(
+                            fontFamily: 'SukhumvitSet',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: Color(0xFFFFFFFF),
                           ),
                         ),
-                  const SizedBox(height: 16),
-                  SizedBox(
-                    width: 114,
-                    child: FilledButton(
-                      onPressed: _saveAddress,
-                      style: FilledButton.styleFrom(
-                        backgroundColor: const Color(0xFF1F8CE2),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                        minimumSize: const Size(double.infinity, 50),
-                      ),
-                      child: const Text(
-                        'บันทึกที่อยู่',
-                        style: TextStyle(
-                          fontFamily: 'SukhumvitSet',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14,
-                          color: Color(0xFFFFFFFF),
-                        ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -269,9 +272,6 @@ class _SetmyadressPageState extends State<SetmyadressPage> {
   Future<UsersLoginPostResponse> fetchUserData() async {
     GetStorage gs = GetStorage();
     String? uid = gs.read('uid');
-    if (uid == null) {
-      throw Exception('User ID not found in storage');
-    }
 
     final response = await http.get(
       Uri.parse('$API_ENDPOINT/user/$uid'),

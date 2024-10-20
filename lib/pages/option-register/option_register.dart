@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:runtod_app/pages/option-register/raider_register.dart';
 import 'package:runtod_app/pages/option-register/user_register.dart';
@@ -72,12 +73,7 @@ class _OptionRegisterPageState extends State<OptionRegisterPage> {
                       );
                     }),
                     buildOptionButton(Icons.motorcycle_rounded, 'ไรเดอร์', () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const RaiderRegisterPage(),
-                        ),
-                      );
+                      Get.to(() => RaiderRegisterPage());
                     }),
                   ],
                 )
@@ -85,12 +81,7 @@ class _OptionRegisterPageState extends State<OptionRegisterPage> {
                 Column(
                   children: [
                     buildOptionButton(Icons.person_rounded, 'ผู้ใช้ระบบ', () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const UserRegisterPage(),
-                        ),
-                      );
+                      Get.to(() => UserRegisterPage());
                     }),
                     const SizedBox(height: 30),
                     buildOptionButton(Icons.motorcycle_rounded, 'ไรเดอร์', () {

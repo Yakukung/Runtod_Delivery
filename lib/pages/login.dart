@@ -23,7 +23,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   bool _obscureText = true;
   String errorText = '';
-  final TextEditingController usernameOrEmailCtl = TextEditingController();
+  final TextEditingController usernameOrEmailOrPhoneCtl =
+      TextEditingController();
   final TextEditingController passwordCtl = TextEditingController();
 
   @override
@@ -65,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 35),
                 TextField(
-                  controller: usernameOrEmailCtl,
+                  controller: usernameOrEmailOrPhoneCtl,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: const Color(0xFF1D1D1F),
@@ -202,10 +203,10 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> login() async {
-    log('username or email: ${usernameOrEmailCtl.text}');
+    log('username or email: ${usernameOrEmailOrPhoneCtl.text}');
     log('password: ${passwordCtl.text}');
 
-    if (usernameOrEmailCtl.text.isEmpty || passwordCtl.text.isEmpty) {
+    if (usernameOrEmailOrPhoneCtl.text.isEmpty || passwordCtl.text.isEmpty) {
       setState(() {
         errorText = 'กรุณาใส่ข้อมูลให้ครบทุกช่อง';
       });
@@ -214,7 +215,7 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     var data = UsersLoginPostRequest(
-      usernameOrEmail: usernameOrEmailCtl.text,
+      usernameOrEmailOrPhone: usernameOrEmailOrPhoneCtl.text,
       password: passwordCtl.text,
     );
     log('Sending data: ${jsonEncode(data.toJson())}');
