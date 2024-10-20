@@ -408,8 +408,21 @@ class _UserRegisterPageState extends State<UserRegisterPage>
         addresstCtl.text.trim().isEmpty ||
         passwordCtl.text.trim().isEmpty ||
         confirmpasswordtCtl.text.trim().isEmpty) {
-      showSnackbar('สร้างบัญชีไม่สำเร็จ!', 'กรุณาป้อนข้อมูลให้ครบทุกช่อง',
-          backgroundColor: const Color(0xFFF92A47));
+      showSnackbar(
+        'สร้างบัญชีไม่สำเร็จ!',
+        'กรุณาป้อนข้อมูลให้ครบทุกช่อง',
+        backgroundColor: const Color(0xFFF92A47),
+      );
+      return;
+    }
+
+// ตรวจสอบว่าภาพถูกเลือกหรือไม่ หากภาพจำเป็นต้องถูกอัปโหลด
+    if (_image == null) {
+      showSnackbar(
+        'สร้างบัญชีไม่สำเร็จ!',
+        'กรุณาเลือกภาพโปรไฟล์',
+        backgroundColor: const Color(0xFFF92A47),
+      );
       return;
     }
 

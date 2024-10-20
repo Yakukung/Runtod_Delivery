@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'package:runtod_app/pages/option-register/raider_register.dart';
+import 'package:runtod_app/pages/option-register/rider_register.dart';
 import 'package:runtod_app/pages/option-register/user_register.dart';
 
 class OptionRegisterPage extends StatefulWidget {
