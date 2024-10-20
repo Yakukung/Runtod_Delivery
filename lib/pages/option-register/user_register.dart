@@ -1,11 +1,15 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:runtod_app/config/internal_config.dart';
 import 'package:runtod_app/model/Request/UsersRegisterPostRequest.dart';
 import 'package:runtod_app/pages/login.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class UserRegisterPage extends StatefulWidget {
   const UserRegisterPage({super.key});
@@ -14,7 +18,8 @@ class UserRegisterPage extends StatefulWidget {
   State<UserRegisterPage> createState() => _UserRegisterPageState();
 }
 
-class _UserRegisterPageState extends State<UserRegisterPage> {
+class _UserRegisterPageState extends State<UserRegisterPage>
+    with WidgetsBindingObserver {
   bool _obscureText = true;
   bool _obscureTextCF = true;
   String errorText = '';
@@ -24,6 +29,76 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
   TextEditingController phoneCtl = TextEditingController();
   TextEditingController passwordCtl = TextEditingController();
   TextEditingController confirmpasswordtCtl = TextEditingController();
+
+  File? _image;
+  final picker = ImagePicker();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  Future<void> getImage(ImageSource source) async {
+    try {
+      final pickedFile = await picker.pickImage(source: source);
+      if (pickedFile != null) {
+        setState(() {
+          _image = File(pickedFile.path);
+        });
+        log("Image selected: ${_image!.path}");
+      } else {
+        print('ไม่ได้เลือกรูปภาพ');
+      }
+    } catch (e) {
+      print('Error in getImage: $e');
+      showSnackbar('Error', 'Failed to access gallery. Please try again.');
+    }
+  }
+
+  Future<String?> uploadImageToFirebase(String uid, File imageFile) async {
+    try {
+      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+      Reference firebaseStorageRef =
+          FirebaseStorage.instance.ref().child('profile_images/$uid/$fileName');
+
+      UploadTask uploadTask = firebaseStorageRef.putFile(imageFile);
+      TaskSnapshot taskSnapshot = await uploadTask;
+      String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+      return downloadUrl;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  void _showImageSourceActionSheet() {
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext context) => CupertinoActionSheet(
+        title: Text('เลือกแหล่งที่มาของรูปภาพ'),
+        actions: <Widget>[
+          CupertinoActionSheetAction(
+            child: Text('คลังรูปภาพ'),
+            onPressed: () {
+              Navigator.pop(context);
+              getImage(ImageSource.gallery);
+            },
+          ),
+        ],
+        cancelButton: CupertinoActionSheetAction(
+          child: Text('ยกเลิก'),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +139,18 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF6C6C6C),
                     fontFamily: 'SukhumvitSet',
+                  ),
+                ),
+                const SizedBox(height: 20),
+                GestureDetector(
+                  onTap: _showImageSourceActionSheet,
+                  child: CircleAvatar(
+                    radius: 50,
+                    backgroundColor: Colors.grey,
+                    backgroundImage: _image != null ? FileImage(_image!) : null,
+                    child: _image == null
+                        ? Icon(Icons.add_a_photo, size: 40, color: Colors.white)
+                        : null,
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -363,12 +450,23 @@ class _UserRegisterPageState extends State<UserRegisterPage> {
       return;
     }
 
+    String? imageUrl;
+    if (_image != null) {
+      String uid = usernameCtl.text.trim();
+      imageUrl = await uploadImageToFirebase(uid, _image!);
+      if (imageUrl == null) {
+        showSnackbar('สร้างบัญชีไม่สำเร็จ!', 'ไม่สามารถอัปโหลดรูปภาพได้!');
+        return;
+      }
+    }
+
     var data = UsersRegisterPostRequest(
       username: usernameCtl.text.trim(),
       fullname: fullnameCtl.text.trim(),
       email: emailCtl.text.trim(),
       phone: phoneCtl.text.trim(),
       password: passwordCtl.text.trim(),
+      profileImage: imageUrl ?? '',
     );
     log('Sending data: ${jsonEncode(data.toJson())}');
 
