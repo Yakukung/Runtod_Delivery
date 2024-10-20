@@ -3,14 +3,14 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class Ridermap extends StatefulWidget {
+  const Ridermap({super.key});
 
   @override
-    State<HomePage> createState() => _HomePageState();
+    State<Ridermap> createState() => _RidermapState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _RidermapState extends State<Ridermap> {
   LatLng latLng = const LatLng(15.985355076669551, 102.6208824793564);
   MapController mapController = MapController();
   String errorMessage = '';

@@ -9,6 +9,7 @@ import 'package:runtod_app/animations/AnimatedCheckmark.dart';
 import 'package:runtod_app/config/internal_config.dart';
 import 'package:runtod_app/model/Request/UsersLoginPostRequest.dart';
 import 'package:runtod_app/model/Response/UsersLoginPostResponse.dart';
+import 'package:runtod_app/pages/raider/home/riderHome.dart';
 import 'package:runtod_app/pages/user/home/homeUser.dart';
 import 'package:runtod_app/pages/option-register/option_register.dart';
 import 'package:flutter/material.dart';
@@ -251,7 +252,7 @@ class _LoginPageState extends State<LoginPage> {
             gs.write('type', userType);
             log("UID written: $uid");
 
-            Get.to(() => HomeUserPage());
+            Get.to(() => Riderhome());
           } else {
             _showErrorDialog('ไม่สามารถกำหนดประเภทผู้ใช้ได้');
           }

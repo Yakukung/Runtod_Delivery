@@ -3,6 +3,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:runtod_app/pages/intro.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:runtod_app/pages/raider/home/riderHome.dart';
 import 'package:runtod_app/pages/user/home/homeUser.dart';
 
 Future<void> main() async {
@@ -51,8 +52,9 @@ class MyApp extends StatelessWidget {
     if (uid != null) {
       switch (type) {
         case 0:
-        case 1:
           return HomeUserPage();
+        case 1:
+          return Riderhome();
         default:
           return const IntroPage();
       }
