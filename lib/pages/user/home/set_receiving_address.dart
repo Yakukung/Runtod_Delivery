@@ -13,14 +13,14 @@ import 'package:runtod_app/model/Response/UsersLoginPostResponse.dart';
 import 'package:http/http.dart' as http;
 import 'package:runtod_app/pages/intro.dart';
 
-class SetmyadressPage extends StatefulWidget {
-  const SetmyadressPage({super.key});
+class SetReceivingPage extends StatefulWidget {
+  const SetReceivingPage({super.key});
 
   @override
-  State<SetmyadressPage> createState() => _SetmyadressPageState();
+  State<SetReceivingPage> createState() => _SetReceivingPageState();
 }
 
-class _SetmyadressPageState extends State<SetmyadressPage> {
+class _SetReceivingPageState extends State<SetReceivingPage> {
   final loc.Location _location = loc.Location();
   LatLng _currentPosition = const LatLng(13.7563, 100.5018);
   LatLng? _originalPosition;
@@ -310,7 +310,7 @@ class _SetmyadressPageState extends State<SetmyadressPage> {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Text("ยืนยันการบันทึก"),
-            content: Text("คุณแน่ใจหรือว่าต้องการบันทึกที่อยู่ใหม่?"),
+            content: Text("คุณแน่ใจหรือว่าต้องการบันทึกที่อยู่รับสินค้า?"),
             actions: <Widget>[
               TextButton(
                 onPressed: () {
@@ -346,7 +346,7 @@ class _SetmyadressPageState extends State<SetmyadressPage> {
               margin: EdgeInsets.all(30),
               borderRadius: 20,
               titleText: Text(
-                'ที่อยู่ใหม่ของคุณ',
+                'ที่อยู่รับสินค้าของคุณ',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -357,7 +357,7 @@ class _SetmyadressPageState extends State<SetmyadressPage> {
               messageText: Text(
                 _address,
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 12,
                   color: Color(0xFFFFFFFF),
                   fontWeight: FontWeight.bold,
                   fontFamily: 'SukhumvitSet',

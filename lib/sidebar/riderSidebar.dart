@@ -7,8 +7,6 @@ import 'package:runtod_app/pages/raider/home/deliveryList.dart';
 import 'package:runtod_app/pages/raider/home/riderHome.dart';
 import 'package:runtod_app/pages/raider/home/riderProfile.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:runtod_app/pages/user/home/sendUser.dart';
-import 'package:runtod_app/pages/user/home/statusUser.dart';
 
 class Ridersidebar extends StatelessWidget {
   final String imageUrl;
