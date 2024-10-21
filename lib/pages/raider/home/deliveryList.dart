@@ -22,8 +22,8 @@ class Deliverylist extends StatefulWidget {
 class _DeliverylistState extends State<Deliverylist> {
   late Future<UsersLoginPostResponse> loadDataUser;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  
-    @override
+
+  @override
   void initState() {
     super.initState();
     loadDataUser = fetchUserData();
@@ -96,11 +96,12 @@ class _DeliverylistState extends State<Deliverylist> {
         ),
       ),
       bottomNavigationBar: Ridernavbottom(
-        selectedIndex: 0,
+        selectedIndex: 1,
       ),
     );
   }
-    Future<UsersLoginPostResponse> fetchUserData() async {
+
+  Future<UsersLoginPostResponse> fetchUserData() async {
     GetStorage gs = GetStorage();
     int uid = gs.read('uid');
     final response = await http.get(

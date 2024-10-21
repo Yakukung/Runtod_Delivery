@@ -249,14 +249,12 @@ class _LoginPageState extends State<LoginPage> {
             gs.write('uid', uid);
             gs.write('type', userType);
             log("UID written: $uid");
-
             Get.to(() => HomeUserPage());
           } else if (userType == 1) {
             GetStorage gs = GetStorage();
             gs.write('uid', uid);
             gs.write('type', userType);
             log("UID written: $uid");
-
             Get.to(() => Riderhome());
           } else {
             _showErrorDialog('ไม่สามารถกำหนดประเภทผู้ใช้ได้');

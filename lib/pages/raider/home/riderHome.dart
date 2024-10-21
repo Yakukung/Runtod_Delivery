@@ -8,10 +8,8 @@ import 'package:runtod_app/pages/intro.dart';
 import 'package:runtod_app/pages/nav-user/navbar.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:runtod_app/pages/nav-user/navbottom.dart';
 import 'package:runtod_app/pages/nav-user/riderNavbottom.dart';
 import 'package:runtod_app/sidebar/riderSidebar.dart';
-import 'package:get_storage/get_storage.dart';
 
 class Riderhome extends StatefulWidget {
   const Riderhome({super.key});
