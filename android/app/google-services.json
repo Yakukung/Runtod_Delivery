@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "527210304558",
+    "project_id": "runtod-app",
+    "storage_bucket": "runtod-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:527210304558:android:b1c52db65cedcfd985bbbf",
+        "android_client_info": {
+          "package_name": "com.example.runtod_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNwXpa2C6Xy4EI4BMyVXWfUUvnShZb_qs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

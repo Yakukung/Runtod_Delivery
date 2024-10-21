@@ -5,7 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:runtod_app/model/Response/UsersLoginPostResponse.dart';
 import 'package:runtod_app/pages/intro.dart';
 import 'package:runtod_app/pages/nav-user/navbar.dart';
-import 'package:runtod_app/pages/user/home/setMyAdress.dart';
+import 'package:runtod_app/pages/user/home/setMylo.dart';
 import 'package:runtod_app/sidebar/userSidebar.dart';
 import 'package:runtod_app/config/internal_config.dart';
 import 'package:http/http.dart' as http;

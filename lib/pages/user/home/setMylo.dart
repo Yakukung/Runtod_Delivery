@@ -331,9 +331,9 @@ class _SetmyadressPageState extends State<SetmyadressPage> {
       if (confirm == true) {
         try {
           final response = await http.put(
-            Uri.parse('$API_ENDPOINT/user/update/address'),
+            Uri.parse('$API_ENDPOINT/user/set/receiving_address'),
             headers: {"Content-Type": "application/json; charset=utf-8"},
-            body: json.encode({"uid": uid, "address": _address}),
+            body: json.encode({"uid": uid, "receiving_address": _address}),
           );
 
           if (response.statusCode == 200) {
