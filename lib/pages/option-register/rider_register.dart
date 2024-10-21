@@ -390,75 +390,86 @@ class _RaiderRegisterPageState extends State<RaiderRegisterPage> {
   }
 
   Future<void> _Register() async {
-    // ตรวจสอบว่าข้อมูลว่างหรือมีช่องว่าง
-    if (usernameCtl.text.trim().isEmpty ||
-        fullnameCtl.text.trim().isEmpty ||
-        emailCtl.text.trim().isEmpty ||
-        phoneCtl.text.trim().isEmpty ||
-        license_plateCtl.text.trim().isEmpty ||
-        passwordCtl.text.trim().isEmpty ||
-        confirmpasswordtCtl.text.trim().isEmpty) {
-      showSnackbar(
-        'สร้างบัญชีไม่สำเร็จ!',
-        'กรุณาป้อนข้อมูลให้ครบทุกช่อง',
-        backgroundColor: const Color(0xFFF92A47),
-      );
-      return;
-    }
-
-    if (_image == null) {
-      showSnackbar(
-        'สร้างบัญชีไม่สำเร็จ!',
-        'กรุณาเลือกภาพโปรไฟล์',
-        backgroundColor: const Color(0xFFF92A47),
-      );
-      return;
-    }
-
-    // ตรวจสอบว่าหมายเลขโทรศัพท์มีความยาว 10 หลัก
-    if (phoneCtl.text.trim().length != 10) {
-      showSnackbar(
-          'หมายเลขโทรศัพท์ไม่ถูกต้อง!', 'กรุณากรอกหมายเลขโทรศัพท์ 10 หลัก',
-          backgroundColor: const Color(0xFFF92A47));
-      return;
-    }
-
-    // ตรวจสอบว่ารหัสผ่านตรงกัน
-    if (confirmpasswordtCtl.text.trim() != passwordCtl.text.trim()) {
-      showSnackbar('รหัสผ่านไม่ตรงกัน!', 'กรุณากรอกรหัสผ่านให้ตรงกัน',
-          backgroundColor: const Color(0xFFF92A47));
-      return;
-    }
-
-    // ตรวจสอบว่าอีเมลมีเครื่องหมาย @
-    if (!emailCtl.text.trim().contains('@')) {
-      showSnackbar('อีเมลไม่ถูกต้อง!', 'กรุณากรอกอีเมลให้ถูกต้อง',
-          backgroundColor: const Color(0xFFF92A47));
-      return;
-    }
-
-    String? imageUrl;
-    if (_image != null) {
-      String phone = phoneCtl.text.trim();
-      imageUrl = await uploadImageToFirebase(phone, _image!);
-      if (imageUrl == null) {
-        showSnackbar('สร้างบัญชีไม่สำเร็จ!', 'ไม่สามารถอัปโหลดรูปภาพได้!');
-        return;
-      }
-    }
-
-    var data = RiderRegisterPostRequest(
-      username: usernameCtl.text.trim(),
-      fullname: fullnameCtl.text.trim(),
-      email: emailCtl.text.trim(),
-      phone: phoneCtl.text.trim(),
-      license_plateCtl: license_plateCtl.text.trim(),
-      password: passwordCtl.text.trim(),
-      image_profile: imageUrl ?? '',
-    );
-    log('Sending data: ${jsonEncode(data.toJson())}');
+    // แสดง loading indicator
+    OverlayEntry overlayEntry = _createOverlayEntry();
+    Overlay.of(context).insert(overlayEntry);
 
     try {
+      // ตรวจสอบว่าข้อมูลว่างหรือมีช่องว่าง
+      if (usernameCtl.text.trim().isEmpty ||
+          fullnameCtl.text.trim().isEmpty ||
+          emailCtl.text.trim().isEmpty ||
+          phoneCtl.text.trim().isEmpty ||
+          license_plateCtl.text.trim().isEmpty ||
+          passwordCtl.text.trim().isEmpty ||
+          confirmpasswordtCtl.text.trim().isEmpty) {
+        overlayEntry.remove();
+        showSnackbar(
+          'สร้างบัญชีไม่สำเร็จ!',
+          'กรุณาป้อนข้อมูลให้ครบทุกช่อง',
+          backgroundColor: const Color(0xFFF92A47),
+        );
+        return;
+      }
+
+      // ตรวจสอบว่าภาพถูกเลือกหรือไม่ หากภาพจำเป็นต้องถูกอัปโหลด
+      if (_image == null) {
+        overlayEntry.remove();
+        showSnackbar(
+          'สร้างบัญชีไม่สำเร็จ!',
+          'กรุณาเลือกภาพโปรไฟล์',
+          backgroundColor: const Color(0xFFF92A47),
+        );
+        return;
+      }
+
+      // ตรวจสอบว่าหมายเลขโทรศัพท์มีความยาว 10 หลัก
+      if (phoneCtl.text.trim().length != 10) {
+        overlayEntry.remove();
+        showSnackbar(
+            'หมายเลขโทรศัพท์ไม่ถูกต้อง!', 'กรุณากรอกหมายเลขโทรศัพท์ 10 หลัก',
+            backgroundColor: const Color(0xFFF92A47));
+        return;
+      }
+
+      // ตรวจสอบว่ารหัสผ่านตรงกัน
+      if (confirmpasswordtCtl.text.trim() != passwordCtl.text.trim()) {
+        overlayEntry.remove();
+        showSnackbar('รหัสผ่านไม่ตรงกัน!', 'กรุณากรอกรหัสผ่านให้ตรงกัน',
+            backgroundColor: const Color(0xFFF92A47));
+        return;
+      }
+
+      // ตรวจสอบว่าอีเมลมีเครื่องหมาย @
+      if (!emailCtl.text.trim().contains('@')) {
+        overlayEntry.remove();
+        showSnackbar('อีเมลไม่ถูกต้อง!', 'กรุณากรอกอีเมลให้ถูกต้อง',
+            backgroundColor: const Color(0xFFF92A47));
+        return;
+      }
+
+      String? imageUrl;
+      if (_image != null) {
+        String phone = phoneCtl.text.trim();
+        imageUrl = await uploadImageToFirebase(phone, _image!);
+        if (imageUrl == null) {
+          overlayEntry.remove();
+          showSnackbar('สร้างบัญชีไม่สำเร็จ!', 'ไม่สามารถอัปโหลดรูปภาพได้!');
+          return;
+        }
+      }
+
+      var data = RiderRegisterPostRequest(
+        username: usernameCtl.text.trim(),
+        fullname: fullnameCtl.text.trim(),
+        email: emailCtl.text.trim(),
+        phone: phoneCtl.text.trim(),
+        license_plateCtl: license_plateCtl.text.trim(),
+        password: passwordCtl.text.trim(),
+        image_profile: imageUrl ?? '',
+      );
+      log('Sending data: ${jsonEncode(data.toJson())}');
+
       var response = await http.post(
         Uri.parse('$API_ENDPOINT/register/rider'),
         headers: {"Content-Type": "application/json; charset=utf-8"},
@@ -466,6 +477,9 @@ class _RaiderRegisterPageState extends State<RaiderRegisterPage> {
       );
       log('Status code: ${response.statusCode}');
       log('Response body: ${response.body}');
+
+      // ลบ loading indicator
+      overlayEntry.remove();
 
       if (response.statusCode == 200) {
         showSnackbar('สร้างบัญชีสำเร็จ!', 'คุณสร้างบัญชีคุณสำเร็จแล้ว',
@@ -496,11 +510,28 @@ class _RaiderRegisterPageState extends State<RaiderRegisterPage> {
             backgroundColor: const Color(0xFFF92A47));
       }
     } catch (e) {
+      // ลบ loading indicator ในกรณีที่เกิดข้อผิดพลาด
+      overlayEntry.remove();
       log('Error: $e');
       showSnackbar(
           'สร้างบัญชีไม่สำเร็จ!', 'ไม่สามารถลงทะเบียนได้ ลองใหม่อีกครั้ง',
           backgroundColor: const Color(0xFFF92A47));
     }
+  }
+
+  OverlayEntry _createOverlayEntry() {
+    return OverlayEntry(
+      builder: (context) => Container(
+        color: Colors.black.withOpacity(0.7),
+        child: Center(
+          child: Image.asset(
+            'assets/gif/load.gif',
+            width: 150,
+            height: 150,
+          ),
+        ),
+      ),
+    );
   }
 
   Future<String?> uploadImageToFirebase(String uid, File imageFile) async {

@@ -49,6 +49,7 @@ flutter:
     - assets/images/
     - assets/video/delivery.mp4
     - assets/icon/zen.png
+    - assets/gif/load.gif
 
   fonts:
     - family: SukhumvitSet

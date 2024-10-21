@@ -11,14 +11,13 @@ import 'package:runtod_app/pages/raider/home/riderProfile.dart';
 class Ridernavbottom extends StatefulWidget {
   final int selectedIndex;
   const Ridernavbottom({super.key, required this.selectedIndex});
-  
 
   @override
   State<Ridernavbottom> createState() => _RidernavbottomState();
 }
 
 class _RidernavbottomState extends State<Ridernavbottom> {
-late int _selectedIndex;
+  late int _selectedIndex;
 
   @override
   void initState() {
@@ -97,7 +96,7 @@ late int _selectedIndex;
                 ),
                 BottomNavigationBarItem(
                   icon: Transform.translate(
-                    offset: Offset(-4.0, 0.0), // ขยับไอคอนในแนวแกน X -1
+                    offset: Offset(-4.0, 0.0),
                     child: Icon(
                       FontAwesomeIcons.clipboardList,
                       size: 23.0,
@@ -107,7 +106,7 @@ late int _selectedIndex;
                 ),
                 const BottomNavigationBarItem(
                   icon: Icon(
-                    FontAwesomeIcons.user ,
+                    Icons.person,
                     size: 30.0,
                   ),
                   label: 'โปรไฟล์',
